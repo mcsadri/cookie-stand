@@ -1,12 +1,12 @@
 'use strict';
 
-let seattle = {
-    locName: 'Seattle',
-    minCust: 23,
-    maxCust: 65,
-    avgQty: 6.3,
-    sales: [],
-    getSales: function(){
+let seattle = { // store location object
+    locName: 'Seattle', // location name
+    minCust: 23, // location's minimum customers per hour
+    maxCust: 65, // locations's maximum customers per hour
+    avgQty: 6.3, // location's average # of cookies purchsed per customer
+    sales: [], // array to hold location's hourly cookie sales data for a single day
+    getSales: function(){ // method to ramdomly generate the location's hourly cookie sales
         return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
     }
 };
@@ -57,9 +57,10 @@ let lima = {
 
 let locations = [seattle, tokyo, dubai, paris, lima]; // array of store location objects
 let hrsOpen = ['6am','7am','8am','9am','10m','11am','12am','1pm','2pm','3pm','4pm','5pm','6pm','7pm','Total']; // array of store's open hours
-pubSalesPage(); // call the main function to publish the sale page
+// call the main function to publish the sales page
+pubSalesPage();
 
-// main function that will call other functions to 1. generate cookies sales by location and 2. publish data to the sales webpage
+// main function that will call other functions to 1. generate cookies sales by location and 2. print data to the sales webpage
 function pubSalesPage(){
 // process sales for each store location listed in locations[]
     for (let i = 0; i < locations.length; i++){
@@ -86,7 +87,7 @@ function calcSales(i){
     }
 }
 
-// publish cookie sales data to the sales webpage
+// print cookie sales data to the sales webpage
 function printSales(i){
     // create the sales report for the current locations[i] and select the parent HTML object
     let report = document.getElementById(locations[i].locName);
