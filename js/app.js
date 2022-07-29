@@ -55,12 +55,8 @@ let lima = {
     }
 };
 
-//let locations = [seattle, tokyo, dubai, paris, lima]; // array of store location objects
-let locations = [seattle];
+let locations = [seattle, tokyo, dubai, paris, lima]; // array of store location objects
 let hrsOpen = ['6am','7am','8am','9am','10m','11am','12am','1pm','2pm','3pm','4pm','5pm','6pm','7pm','Total']; // array of store's open hours
-
-// console.log(seattle);
-// console.log(seattle.getSales());
 
 // process sales for each store location listed in locations[]
 for (let i = 0; i < locations.length; i++){
@@ -81,19 +77,18 @@ for (let i = 0; i < locations.length; i++){
         }
     }
 
-
-    // create the sales report and select the parent HTML object
+    // create the sales report for the current locations[i] and select the parent HTML object
     let report = document.getElementById(locations[i].locName);
 
     // print the sales report, sales[], for the currrent store location
-    for (let j = 0; j < locations[i].sales[j].length; j++){
-
+    for (let j = 0; j < locations[i].sales.length; j++){
+        // create hourSales <li> for selected element id on sales.html
         let hourSales = document.createElement('li');
-        //hourSales.innerText = hrsOpen[j] + ': ' + locations[i].sales[j] + ' cookies';
-        hourSales.innerText = locations[i].sales[j];
+        // set hourSales <li> equals to the current index value of sales[] for the current location
+        hourSales.innerText = hrsOpen[j] + ': ' + locations[i].sales[j] + ' cookies';
+        // add the hourSales element to the unordered list for the current location on sales.html
         report.appendChild(hourSales);
 
     }
 }
 
-console.log(seattle.sales);
