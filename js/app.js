@@ -80,7 +80,7 @@ for (let i = 0; i < locations.length; i++){
     // create the sales report for the current locations[i] and select the parent HTML object
     let report = document.getElementById(locations[i].locName);
 
-    // print the sales report, sales[], for the currrent store location
+    // print the sales report, sales[], for the currrent store location on sales.html
     for (let j = 0; j < locations[i].sales.length; j++){
         // create hourSales <li> for selected element id on sales.html
         let hourSales = document.createElement('li');
@@ -88,7 +88,5 @@ for (let i = 0; i < locations.length; i++){
         hourSales.innerText = hrsOpen[j] + ': ' + locations[i].sales[j] + ' cookies';
         // add the hourSales element to the unordered list for the current location on sales.html
         report.appendChild(hourSales);
-
     }
 }
-
