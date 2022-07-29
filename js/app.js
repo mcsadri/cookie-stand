@@ -7,7 +7,7 @@ let seattle = {
     avgQty: 6.3,
     sales: [],
     getSales: function(){
-        return Math.floor(Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
+        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
     }
 };
 
@@ -18,7 +18,7 @@ let tokyo = {
     avgQty: 1.2,
     sales: [],
     getSales: function(){
-        return Math.floor(Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
+        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
     }
 };
 
@@ -29,7 +29,7 @@ let dubai = {
     avgQty: 3.7,
     sales: [],
     getSales: function(){
-        return Math.floor(Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
+        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
     }
 };
 
@@ -40,7 +40,7 @@ let paris = {
     avgQty: 2.3,
     sales: [],
     getSales: function(){
-        return Math.floor(Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
+        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
     }
 };
 
@@ -51,31 +51,49 @@ let lima = {
     avgQty: 4.6,
     sales: [],
     getSales: function(){
-        return Math.floor(Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
+        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
     }
 };
 
-//let locations = [seattle, tokyo, dubai, paris, lima];
-let locations = [seattle]
-let hrsOpen = ['6am','7am','8am','9am','10m','11am','12am','1pm','2pm','3pm','4pm','5pm','6pm','7pm'];
+//let locations = [seattle, tokyo, dubai, paris, lima]; // array of store location objects
+let locations = [seattle];
+let hrsOpen = ['6am','7am','8am','9am','10m','11am','12am','1pm','2pm','3pm','4pm','5pm','6pm','7pm','Total']; // array of store's open hours
 
-console.log(seattle);
-console.log(seattle.getSales());
+// console.log(seattle);
+// console.log(seattle.getSales());
 
+// process sales for each store location listed in locations[]
 for (let i = 0; i < locations.length; i++){
 
-    // let report = document.getElementById(locations[i].locName);
+    let salesTotal = 0; // holds iterating sum of the day's hourly sales
 
-    for (let j =- 0; j < hrsOpen.length; j++){
+    // calculate hourly sales data and insert data into sales[] array
+    for (let j = 0; j < hrsOpen.length - 1; j++){
 
+        // repeat the getSales() method from the store location oject to calculate sales data for each hour the store is open
         locations[i].sales.push(locations[i].getSales());
-
-        // let hourSales = document.createElement('li');
-        // hourSales.innerText = hrsOpen[j] + ': ' + locations[i].getSales() + ' cookies';
-        // report.appendChild(hourSales);
-
+        // add hourly sales to the day's total sales
+        salesTotal += locations[i].sales[j];
+        // if end of day add the days's sales total to the end of the sales data array
+        if (j === hrsOpen.length - 2){
+            //salesTotal.push(locations[i].getSales());
+            locations[i].sales.push(salesTotal);
+        }
     }
 
+
+    // create the sales report and select the parent HTML object
+    let report = document.getElementById(locations[i].locName);
+
+    // print the sales report, sales[], for the currrent store location
+    for (let j = 0; j < locations[i].sales[j].length; j++){
+
+        let hourSales = document.createElement('li');
+        //hourSales.innerText = hrsOpen[j] + ': ' + locations[i].sales[j] + ' cookies';
+        hourSales.innerText = locations[i].sales[j];
+        report.appendChild(hourSales);
+
+    }
 }
 
 console.log(seattle.sales);
