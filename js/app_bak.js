@@ -57,20 +57,13 @@ let lima = {
 
 let locations = [seattle, tokyo, dubai, paris, lima]; // array of store location objects
 let hrsOpen = ['6am','7am','8am','9am','10m','11am','12am','1pm','2pm','3pm','4pm','5pm','6pm','7pm','Total']; // array of store's open hours
-pubSalesPage();
 
-// main function that will call other functions to 1) generate cookies sales by location and 2) publish data to the sales webpage
-function pubSalesPage(){
 // process sales for each store location listed in locations[]
-    for (let i = 0; i < locations.length; i++){
-        calcSales(i);
-        printSales(i);
-    }
-}
+for (let i = 0; i < locations.length; i++){
 
-// calculate hourly sales data and insert data into sales[] array
-function calcSales(i){
     let salesTotal = 0; // holds iterating sum of the day's hourly sales
+
+    // calculate hourly sales data and insert data into sales[] array
     // hrsOpen.length - 1 to account for the added hrsOpen[] element to hold Total
     for (let j = 0; j < hrsOpen.length - 1; j++){
         // repeat the getSales() method from the store location oject to calculate sales data for each hour the store is open
@@ -84,12 +77,10 @@ function calcSales(i){
             locations[i].sales.push(salesTotal);
         }
     }
-}
 
-// publish cookie sales data to the sales webpage
-function printSales(i){
     // create the sales report for the current locations[i] and select the parent HTML object
     let report = document.getElementById(locations[i].locName);
+
     // print the sales report, sales[], for the currrent store location on sales.html
     for (let j = 0; j < locations[i].sales.length; j++){
         // create hourSales <li> for selected element id on sales.html
