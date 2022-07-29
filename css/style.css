@@ -1,0 +1,8 @@
+section
+{
+    column-count: 5; /*this doesnt do what I think it does?*/
+}
+
+div{
+    break-after:column;
+}
