@@ -57,9 +57,9 @@ let lima = {
 
 let locations = [seattle, tokyo, dubai, paris, lima]; // array of store location objects
 let hrsOpen = ['6am','7am','8am','9am','10m','11am','12am','1pm','2pm','3pm','4pm','5pm','6pm','7pm','Total']; // array of store's open hours
-pubSalesPage();
+pubSalesPage(); // call the main function to publish the sale page
 
-// main function that will call other functions to 1) generate cookies sales by location and 2) publish data to the sales webpage
+// main function that will call other functions to 1. generate cookies sales by location and 2. publish data to the sales webpage
 function pubSalesPage(){
 // process sales for each store location listed in locations[]
     for (let i = 0; i < locations.length; i++){
