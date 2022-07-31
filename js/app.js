@@ -1,103 +1,130 @@
 'use strict';
 
-let seattle = { // store location object
-    locName: 'Seattle', // location name
-    minCust: 23, // location's minimum customers per hour
-    maxCust: 65, // locations's maximum customers per hour
-    avgQty: 6.3, // location's average # of cookies purchsed per customer
-    sales: [], // array to hold location's hourly cookie sales data for a single day
-    getSales: function(){ // method to ramdomly generate the location's hourly cookie sales
-        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
-    }
-};
+// this is crap
+// i have no idea what I'm doing
+// but let's get a commit anyway, ya?
 
-let tokyo = {
-    locName: 'Tokyo',
-    minCust: 3,
-    maxCust: 24,
-    avgQty: 1.2,
-    sales: [],
-    getSales: function(){
-        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
-    }
-};
+// global multi-dim array of store location information where elements = locaName, minCust, maxCust, avgQty
+// let storeInfo = [
+//     ['Seattle',	23,	65,	6.3],
+//     ['Tokyo',	3,	24,	1.2],
+//     ['Dubai',	11,	38,	3.7],
+//     ['Paris',	20,	38,	2.3],
+//     ['Lima',	2,	16,	4.6],
+// ];
 
-let dubai = {
-    locName: 'Dubai',
-    minCust: 11,
-    maxCust: 38,
-    avgQty: 3.7,
-    sales: [],
-    getSales: function(){
-        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
-    }
-};
+let locations = [];
+let hrsOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm',
+    '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', 'Daily Location Total',]; // array of store's open hours + total
+let salesTotals = []; // array to hold sales calcuated sales totals across all stores for hourly totals and daily grand total
 
-let paris = {
-    locName: 'Paris',
-    minCust: 20,
-    maxCust: 38,
-    avgQty: 2.3,
-    sales: [],
-    getSales: function(){
-        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
-    }
-};
 
-let lima = {
-    locName: 'Lima',
-    minCust: 2,
-    maxCust: 16,
-    avgQty: 4.6,
-    sales: [],
-    getSales: function(){
-        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
-    }
-};
+function Store (storeInfo){
 
-let locations = [seattle, tokyo, dubai, paris, lima]; // array of store location objects
-let hrsOpen = ['6am','7am','8am','9am','10m','11am','12am','1pm','2pm','3pm','4pm','5pm','6pm','7pm','Total']; // array of store's open hours
-// call the main function to publish the sales page
-pubSalesPage();
+        this.name = storeInfo[0];
+        this.minCust = storeInfo[1];
+        this.maxCust = storeInfo[2];
+        this.avgQty = storeInfo[3];
+        this.sales = [];
 
-// main function that will call other functions to 1. generate cookies sales by location and 2. print data to the sales webpage
-function pubSalesPage(){
-// process sales for each store location listed in locations[]
-    for (let i = 0; i < locations.length; i++){
-        calcSales(i);
-        printSales(i);
-    }
 }
 
-// calculate hourly sales data and insert data into sales[] array
-function calcSales(i){
-    let salesTotal = 0; // holds iterating sum of the day's hourly sales
-    // hrsOpen.length - 1 to account for the added hrsOpen[] element to hold Total
-    for (let j = 0; j < hrsOpen.length - 1; j++){
-        // repeat the getSales() method from the store location oject to calculate sales data for each hour the store is open
-        locations[i].sales.push(locations[i].getSales());
-        // add hourly sales to the day's total sales
-        salesTotal += locations[i].sales[j];
-        // if end of day add the days's sales total to the end of the sales data array
-        // hrsOpen.length - 2 to account for the added hrsOpen[] element to hold Total
-        if (j === hrsOpen.length - 2){
-            // add the total sales to the end of sales[]
-            locations[i].sales.push(salesTotal);
-        }
-    }
+
+
+
+
+
+// function store (name, minCust, maxCust, avgQty){
+//     this.name = name;
+//     this.minCust = minCust;
+//     this.maxCust = maxCust;
+//     this.avgQty = avgQty;
+//     this.sales = [];
+
+//     // // method to calculate sales data
+//     // this.getSales = function(){
+//     //     return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
+//     // };
+
+
+
+//     // // method to print sales data to webpage table
+//     // this.render = function(){
+
+//     //};
+// }
+
+addStore(storeInfo);
+
+console.log(seattle);
+
+
+// function declaration to create store location objects using locationInfo() constructor
+function addStore(storeInfo) {
+   //for(let i = 0; i < storeInfo.length; i++){
+        //let storeInfo[i, 0] = new store(storeInfo[i]);
+        let seattle = new Store(storeInfo[]);
+
+       // let potato8 = new Potato("apple", "maroon", 24);
+
+   // }
+
 }
 
-// print cookie sales data to the sales webpage
-function printSales(i){
-    // create the sales report for the current locations[i] and select the parent HTML object
-    let report = document.getElementById(locations[i].locName);
-    // print the sales report, sales[], for the currrent store location on sales.html
-    for (let j = 0; j < locations[i].sales.length; j++){
-        // create hourSales <li> for selected element id on sales.html
-        let hourSales = document.createElement('li');
-        // set hourSales <li> equals to the current index value of sales[] for the current location
-        hourSales.innerText = hrsOpen[j] + ': ' + locations[i].sales[j] + ' cookies';
-        // add the hourSales element to the unordered list for the current location on sales.html
-        report.appendChild(hourSales);
-    }
-}
+
+
+// function declaration to calcuate sales data for each store location
+
+
+// function declaration to print column header
+
+
+// function declaration to print column footer
+
+
+
+// function to print sales data table
+
+    // function call print column header
+
+    // call render method to populate store data in for loop
+
+    // function call print column footer
+
+
+
+
+
+
+// // calculate hourly sales data and insert data into sales[] array
+// function calcSales(i){
+//     let salesTotal = 0; // holds iterating sum of the day's hourly sales
+//     // hrsOpen.length - 1 to account for the added hrsOpen[] element to hold Total
+//     for (let j = 0; j < hrsOpen.length - 1; j++){
+//         // repeat the getSales() method from the store location oject to calculate sales data for each hour the store is open
+//         locations[i].sales.push(locations[i].getSales());
+//         // add hourly sales to the day's total sales
+//         salesTotal += locations[i].sales[j];
+//         // if end of day add the days's sales total to the end of the sales data array
+//         // hrsOpen.length - 2 to account for the added hrsOpen[] element to hold Total
+//         if (j === hrsOpen.length - 2){
+//             // add the total sales to the end of sales[]
+//             locations[i].sales.push(salesTotal);
+//         }
+//     }
+// }
+
+// // print cookie sales data to the sales webpage
+// function printSales(i){
+//     // create the sales report for the current locations[i] and select the parent HTML object
+//     let report = document.getElementById(locations[i].locName);
+//     // print the sales report, sales[], for the currrent store location on sales.html
+//     for (let j = 0; j < locations[i].sales.length; j++){
+//         // create hourSales <li> for selected element id on sales.html
+//         let hourSales = document.createElement('li');
+//         // set hourSales <li> equals to the current index value of sales[] for the current location
+//         hourSales.innerText = hrsOpen[j] + ': ' + locations[i].sales[j] + ' cookies';
+//         // add the hourSales element to the unordered list for the current location on sales.html
+//         report.appendChild(hourSales);
+//     }
+// }
