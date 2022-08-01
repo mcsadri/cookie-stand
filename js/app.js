@@ -20,20 +20,24 @@ function Store (name, minCust, maxCust, avgQty){
 
 // Store.prototype.renderReport = function(){
 
-
-
-
 // }
 
 
 // main function that will call other functions to 1. generate cookies sales by location and 2. print data to the sales webpage
-function pubSalesPage(){
-    // process sales for each store location listed in locations[]
+function runSalesReport(){
+    // print the sales report header row
+    printReportHeader();
+    // calculate the sales data and print the sales report body
     for (let i = 0; i < stores.length; i++){
+
         calcSales(i);
-        //printSales(i);
+
+        //renderReport(i); // call render method to populate store data in for loop
+
     }
-    
+
+    // function call print column footer
+
 }
 
 // calculate hourly sales data and insert data into sales[] array
@@ -58,22 +62,31 @@ function calcSales(i){
     }
 }
 
+// function to print the sales report header row using hours of operation in hrsOpen[]
+function printReportHeader(){
+    // select the 'table-header' html id container element
+    let tableHeader = document.getElementById('table-header');
+    // create new table row for header
+    let headerRow = document.createElement('tr');
+    // create blank table header cell
+    let blank = document.createElement('th');
+    blank.innerText = null;
+    tableHeader.appendChild(blank);
+    // fill-in the header row with column names
+    for (let j = 0; j < hrsOpen.length; j++){
+        let colHeader = document.createElement('th');
+        colHeader.innerText = hrsOpen[j];
+        tableHeader.appendChild(colHeader);
+    }
+}
 
 
-// function declaration to print column header
+
+// function to print the sales report's footer row
+function printReportFooter(){
 
 
-// function declaration to print column footer
-
-
-
-// function to print sales data table
-
-    // function call print column header
-
-    // call render method to populate store data in for loop
-
-    // function call print column footer
+}
 
 
 // create store objects using the Store() constructor, and add objects to array stores[]
@@ -83,32 +96,9 @@ let dubai = new Store('Dubai',	11,	38,	3.7);
 let paris = new Store('Paris',	20,	38,	2.3);
 let lima = new Store('Lima',	2,	16,	4.6);
 let stores = [seattle, tokyo, dubai, paris, lima];
-//let stores = [seattle];
-
-
 
 // call the main function to publish the sales page
-pubSalesPage();
+runSalesReport();
 
 console.log(stores);
 console.log(grandTotals);
-//console.log(seattle);
-
-
-
-
-
-// // print cookie sales data to the sales webpage
-// function printSales(i){
-//     // create the sales report for the current locations[i] and select the parent HTML object
-//     let report = document.getElementById(locations[i].locName);
-//     // print the sales report, sales[], for the currrent store location on sales.html
-//     for (let j = 0; j < locations[i].sales.length; j++){
-//         // create hourSales <li> for selected element id on sales.html
-//         let hourSales = document.createElement('li');
-//         // set hourSales <li> equals to the current index value of sales[] for the current location
-//         hourSales.innerText = hrsOpen[j] + ': ' + locations[i].sales[j] + ' cookies';
-//         // add the hourSales element to the unordered list for the current location on sales.html
-//         report.appendChild(hourSales);
-//     }
-// }

@@ -1,8 +1,12 @@
-section
-{
-    column-count: 5; /*this doesnt do what I think it does?*/
+table {
+    margin: auto;
+    border-spacing: 0px;
 }
 
-div{
-    break-after:column;
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 1rem;
 }
