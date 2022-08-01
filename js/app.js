@@ -4,7 +4,7 @@ let hrsOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12
     '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', 'Daily Location Total',]; // array of store's open hours + total
 let grandTotals = Array(hrsOpen.length).fill(0); // array to hold calculated sales across all stores for hourly and daily grand totals
 
-
+// constructor to create new store location objects
 function Store (name, minCust, maxCust, avgQty){
     this.name = name; // location name
     this.minCust = minCust; // location's minimum customers per hour
@@ -17,11 +17,24 @@ function Store (name, minCust, maxCust, avgQty){
     };
 }
 
-
-// Store.prototype.renderReport = function(){
-
-// }
-
+// store object method to print the body of the sales report
+Store.prototype.renderReport = function(){
+    // select the 'table-body' html id container element
+    let tableBody = document.getElementById('table-body');
+    // create new table row element for body of sales report
+    let bodyRow = document.createElement('tr');
+    // print store location name in a header cell
+    let storeLoc = document.createElement('th');
+    storeLoc.innerText = this.name;
+    tableBody.appendChild(storeLoc);
+    // print the hourly and daily sales total for the store locaiton
+    for(let j = 0; j < this.sales.length; j++){
+        let salesData = document.createElement('td');
+        salesData.innerText = this.sales[j];
+        tableBody.appendChild(salesData);
+        tableBody.appendChild(bodyRow);
+    }
+};
 
 // main function that will call other functions to 1. generate cookies sales by location and 2. print data to the sales webpage
 function runSalesReport(){
@@ -31,9 +44,8 @@ function runSalesReport(){
     for (let i = 0; i < stores.length; i++){
         // calculate cookies sales for each store location
         calcSales(i);
-
-        //renderReport(i); // call render method to populate store data in for loop
-
+        // call render method to populate store data in for loop
+        stores[i].renderReport();
     }
     // function call print column footer
     printReportFooter();
@@ -43,7 +55,7 @@ function runSalesReport(){
 function printReportHeader(){
     // select the 'table-header' html id container element
     let tableHeader = document.getElementById('table-header');
-    // create new table row for header
+    // create new table row element for header
     let headerRow = document.createElement('tr'); // eslint-disable-line
     // create blank table header cell
     let blank = document.createElement('th');
@@ -83,7 +95,7 @@ function calcSales(i){
 function printReportFooter(){
     // select the 'table-footer' html id container element
     let tableFooter = document.getElementById('table-footer');
-    // create new table row for sales totals footer
+    // create new table row element for sales totals footer
     let footerRow = document.createElement('tr'); // eslint-disable-line
     // create Totals table footer(<th>) cell
     let totals = document.createElement('th');
@@ -107,6 +119,3 @@ let stores = [seattle, tokyo, dubai, paris, lima];
 
 // call the main function to publish the sales page
 runSalesReport();
-
-console.log(stores);
-console.log(grandTotals);
