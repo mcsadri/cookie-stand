@@ -1,8 +1,29 @@
-section
-{
-    column-count: 5; /*this doesnt do what I think it does?*/
+td {
+    text-align: center;
 }
 
-div{
-    break-after:column;
+table {
+    margin: auto;
+    border-spacing: 0px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 1rem;
+}
+
+#table-header{
+    background-color: black;
+    color: white;
+}
+
+#table-body th{
+    background-color: lightgray;
+}
+
+#table-footer th{
+    background-color: lightgray;
 }

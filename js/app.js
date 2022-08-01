@@ -1,71 +1,71 @@
 'use strict';
 
-let seattle = { // store location object
-    locName: 'Seattle', // location name
-    minCust: 23, // location's minimum customers per hour
-    maxCust: 65, // locations's maximum customers per hour
-    avgQty: 6.3, // location's average # of cookies purchsed per customer
-    sales: [], // array to hold location's hourly cookie sales data for a single day
-    getSales: function(){ // method to ramdomly generate the location's hourly cookie sales
+let hrsOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm',
+    '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', 'Daily Location Total',]; // array of store's open hours + total
+let grandTotals = Array(hrsOpen.length).fill(0); // array to hold calculated sales across all stores for hourly and daily grand totals
+
+// constructor to create new store location objects
+function Store (name, minCust, maxCust, avgQty){
+    this.name = name; // location name
+    this.minCust = minCust; // location's minimum customers per hour
+    this.maxCust = maxCust; // location's maximum customers per hour
+    this.avgQty = avgQty; // location's average # of cookies purchsed per customer
+    this.sales = []; // array to hold location's hourly cookie sales data for a single day
+
+    this.getSales = function(){ // method to ramdomly generate the location's hourly cookie sales
         return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
+    };
+}
+
+// store object method to print the body of the sales report
+Store.prototype.renderReport = function(){
+    // select the 'table-body' html id container element
+    let tableBody = document.getElementById('table-body');
+    // create new table row element for body of sales report
+    let bodyRow = document.createElement('tr');
+    // print store location name in a header cell
+    let storeLoc = document.createElement('th');
+    storeLoc.innerText = this.name;
+    tableBody.appendChild(storeLoc);
+    // print the hourly and daily sales total for the store locaiton
+    for(let j = 0; j < this.sales.length; j++){
+        let salesData = document.createElement('td');
+        salesData.innerText = this.sales[j];
+        tableBody.appendChild(salesData);
+        tableBody.appendChild(bodyRow);
     }
 };
 
-let tokyo = {
-    locName: 'Tokyo',
-    minCust: 3,
-    maxCust: 24,
-    avgQty: 1.2,
-    sales: [],
-    getSales: function(){
-        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
-    }
-};
-
-let dubai = {
-    locName: 'Dubai',
-    minCust: 11,
-    maxCust: 38,
-    avgQty: 3.7,
-    sales: [],
-    getSales: function(){
-        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
-    }
-};
-
-let paris = {
-    locName: 'Paris',
-    minCust: 20,
-    maxCust: 38,
-    avgQty: 2.3,
-    sales: [],
-    getSales: function(){
-        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
-    }
-};
-
-let lima = {
-    locName: 'Lima',
-    minCust: 2,
-    maxCust: 16,
-    avgQty: 4.6,
-    sales: [],
-    getSales: function(){
-        return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
-    }
-};
-
-let locations = [seattle, tokyo, dubai, paris, lima]; // array of store location objects
-let hrsOpen = ['6am','7am','8am','9am','10m','11am','12am','1pm','2pm','3pm','4pm','5pm','6pm','7pm','Total']; // array of store's open hours
-// call the main function to publish the sales page
-pubSalesPage();
-
-// main function that will call other functions to 1. generate cookies sales by location and 2. print data to the sales webpage
-function pubSalesPage(){
-// process sales for each store location listed in locations[]
-    for (let i = 0; i < locations.length; i++){
+// main function that will call other functions to generate cookies sales by location and print sales report
+function runSalesReport(){
+    // print the sales report header row
+    printReportHeader();
+    // calculate the sales data and print the sales report body
+    for (let i = 0; i < stores.length; i++){
+        // calculate cookies sales for each store location
         calcSales(i);
-        printSales(i);
+        // call render method to populate store data in for loop
+        stores[i].renderReport();
+    }
+    // function call print column footer
+    printReportFooter();
+}
+
+// function to print the sales report header row using hours of operation in hrsOpen[]
+function printReportHeader(){
+    // select the 'table-header' html id container element
+    let tableHeader = document.getElementById('table-header');
+    // create new table row element for header
+    let headerRow = document.createElement('tr'); // eslint-disable-line
+    // create blank table header cell
+    let blank = document.createElement('th');
+    blank.innerText = null;
+    tableHeader.appendChild(blank);
+    // fill-in the header row with column names
+    for (let j = 0; j < hrsOpen.length; j++){
+        let colHeader = document.createElement('th');
+        colHeader.innerText = hrsOpen[j];
+        tableHeader.appendChild(colHeader);
     }
 }
 
@@ -75,29 +75,47 @@ function calcSales(i){
     // hrsOpen.length - 1 to account for the added hrsOpen[] element to hold Total
     for (let j = 0; j < hrsOpen.length - 1; j++){
         // repeat the getSales() method from the store location oject to calculate sales data for each hour the store is open
-        locations[i].sales.push(locations[i].getSales());
-        // add hourly sales to the day's total sales
-        salesTotal += locations[i].sales[j];
+        stores[i].sales.push(stores[i].getSales());
+        // add store's hourly sales to the store's daily sales total
+        salesTotal += stores[i].sales[j];
+        // add the store's hourly sales to the hourly grand total
+        grandTotals[j] += stores[i].sales[j];
         // if end of day add the days's sales total to the end of the sales data array
         // hrsOpen.length - 2 to account for the added hrsOpen[] element to hold Total
         if (j === hrsOpen.length - 2){
             // add the total sales to the end of sales[]
-            locations[i].sales.push(salesTotal);
+            stores[i].sales.push(salesTotal);
+            // calculate the daily grand total sales by adding each of the store's daily totals
+            grandTotals[j+1] += salesTotal;
         }
     }
 }
 
-// print cookie sales data to the sales webpage
-function printSales(i){
-    // create the sales report for the current locations[i] and select the parent HTML object
-    let report = document.getElementById(locations[i].locName);
-    // print the sales report, sales[], for the currrent store location on sales.html
-    for (let j = 0; j < locations[i].sales.length; j++){
-        // create hourSales <li> for selected element id on sales.html
-        let hourSales = document.createElement('li');
-        // set hourSales <li> equals to the current index value of sales[] for the current location
-        hourSales.innerText = hrsOpen[j] + ': ' + locations[i].sales[j] + ' cookies';
-        // add the hourSales element to the unordered list for the current location on sales.html
-        report.appendChild(hourSales);
+// function to print the sales report's footer row
+function printReportFooter(){
+    // select the 'table-footer' html id container element
+    let tableFooter = document.getElementById('table-footer');
+    // create new table row element for sales totals footer
+    let footerRow = document.createElement('tr'); // eslint-disable-line
+    // create Totals table footer(<th>) cell
+    let totals = document.createElement('th');
+    totals.innerText = 'Totals';
+    tableFooter.appendChild(totals);
+    // fill-in the totals footer row with hourly and daily sales totals from grandTotals()
+    for (let j = 0; j < grandTotals.length; j++){
+        let colTotal = document.createElement('th');
+        colTotal.innerText = grandTotals[j];
+        tableFooter.appendChild(colTotal);
     }
 }
+
+// create store objects using the Store() constructor, and add objects to array stores[]
+let seattle = new Store('Seattle',	23,	65,	6.3);
+let tokyo = new Store('Tokyo',	3,	24,	1.2);
+let dubai = new Store('Dubai',	11,	38,	3.7);
+let paris = new Store('Paris',	20,	38,	2.3);
+let lima = new Store('Lima',	2,	16,	4.6);
+let stores = [seattle, tokyo, dubai, paris, lima];
+
+// call the main function to publish the sales page
+runSalesReport();
