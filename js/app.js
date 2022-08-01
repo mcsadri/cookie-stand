@@ -2,17 +2,17 @@
 
 let hrsOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm',
     '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', 'Daily Location Total',]; // array of store's open hours + total
-let grandTotals = Array(hrsOpen.length).fill(0); // array to hold sales calcuated sales totals across all stores for hourly totals and daily grand total
+let grandTotals = Array(hrsOpen.length).fill(0); // array to hold calculated sales across all stores for hourly and daily grand totals
 
 
 function Store (name, minCust, maxCust, avgQty){
-    this.name = name;
-    this.minCust = minCust;
-    this.maxCust = maxCust;
-    this.avgQty = avgQty;
-    this.sales = [];
+    this.name = name; // location name
+    this.minCust = minCust; // location's minimum customers per hour
+    this.maxCust = maxCust; // location's maximum customers per hour
+    this.avgQty = avgQty; // location's average # of cookies purchsed per customer
+    this.sales = []; // array to hold location's hourly cookie sales data for a single day
 
-    this.getSales = function(){
+    this.getSales = function(){ // method to ramdomly generate the location's hourly cookie sales
         return Math.floor((Math.random() * (this.maxCust - this.minCust + 1) + this.minCust) * this.avgQty);
     };
 }
@@ -20,25 +20,7 @@ function Store (name, minCust, maxCust, avgQty){
 
 // Store.prototype.renderReport = function(){
 
-//     // select container element
-//     let reportheader = document.getElementById('report-header');
 
-//     // step 1 create element with document.createElement()
-//     let headerRow = document.createElement('tr');
-
-//     columnNames.innerText = 'colNames';
-//     colName2.innerText = 'colName2';
-//     colName3.innerText = 'colName3';
-//     colName4.innerText = 'colName4';
-//     colName5.innerText = 'colName5';
-
-//     let columnNames = document.createElement('th');
-//     let colName2 = document.createElement('th');
-//     let colName3 = document.createElement('th');
-//     let colName4 = document.createElement('th');
-//     let colName5 = document.createElement('th');
-
-//     reportHeader.appendChild(columnNames);
 
 
 // }
@@ -70,9 +52,8 @@ function calcSales(i){
         if (j === hrsOpen.length - 2){
             // add the total sales to the end of sales[]
             stores[i].sales.push(salesTotal);
-            // calculate the day's grand total sales by summing the hourly grand totals
-            for(let h = 0; h < stores[i].sales[j]; h++)
-                grandTotals[j] += stores[i].sales[j];
+            // calculate the daily grand total sales by adding each of the store's daily totals
+            grandTotals[j+1] += salesTotal;
         }
     }
 }
@@ -102,12 +83,16 @@ let dubai = new Store('Dubai',	11,	38,	3.7);
 let paris = new Store('Paris',	20,	38,	2.3);
 let lima = new Store('Lima',	2,	16,	4.6);
 let stores = [seattle, tokyo, dubai, paris, lima];
+//let stores = [seattle];
+
+
 
 // call the main function to publish the sales page
 pubSalesPage();
 
 console.log(stores);
 console.log(grandTotals);
+//console.log(seattle);
 
 
 
