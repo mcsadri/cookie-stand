@@ -36,7 +36,7 @@ Store.prototype.renderReport = function(){
     }
 };
 
-// main function that will call other functions to 1. generate cookies sales by location and 2. print data to the sales webpage
+// main function that will call other functions to generate cookies sales by location and print sales report
 function runSalesReport(){
     // print the sales report header row
     printReportHeader();
