@@ -38,16 +38,6 @@ Store.prototype.renderReport = function(){
 
 // main function that will call other functions to generate cookies sales by location and print sales report
 function runSalesReport(){
-
-
-    // remove any existing table data to prevent duplicates when user adds new store location via HTML form
-    let Rows = document.getElementsByTagName('tr');
-    while (Rows.length > 0 ) {
-        Rows[0].remove();
-        console.log(Rows);
-    }
-
-
     // print the sales report header row
     printReportHeader();
     // calculate the sales data and print the sales report body
@@ -131,10 +121,17 @@ function addStore(event) {
     let minCust = form.minCust.value;
     let maxCust = form.maxCust.value;
     let avgQty = form.avgQty.value;
+    // create new Store object with form values
     let store = new Store(name, minCust, maxCust, avgQty);
+    // add new store to end of stores array
     stores.push(store);
-    console.log(stores);
-    runSalesReport();
+    // calcuate ssales for new store location (last item in array) with updated grand totals
+    calcSales(stores.length-1);
+    // insert new store sales data into sales report
+    stores[stores.length-1].renderReport();
+    // remove the existing totals row (table footer) and then re-render the totals/footer row
+    document.getElementById('table-footer').innerHTML = ''; // borrowed from solution @ https://stackoverflow.com/questions/63442859/reset-dom-table-on-form-submit
+    printReportFooter();
 }
 
 // create store objects using the Store() constructor, and add objects to array stores[]
