@@ -132,6 +132,8 @@ function addStore(event) {
     // remove the existing totals row (table footer) and then re-render the totals/footer row
     document.getElementById('table-footer').innerHTML = ''; // borrowed from solution @ https://stackoverflow.com/questions/63442859/reset-dom-table-on-form-submit
     printReportFooter();
+    // reset the form to blank fields
+    document.getElementById('storeForm').reset();
 }
 
 // create store objects using the Store() constructor, and add objects to array stores[]
