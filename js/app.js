@@ -27,7 +27,7 @@ Store.prototype.renderReport = function(){
     let storeLoc = document.createElement('th');
     storeLoc.innerText = this.name;
     tableBody.appendChild(storeLoc);
-    // print the hourly and daily sales total for the store locaiton
+    // print the hourly and daily sales total for the store location
     for(let j = 0; j < this.sales.length; j++){
         let salesData = document.createElement('td');
         salesData.innerText = this.sales[j];
@@ -38,6 +38,16 @@ Store.prototype.renderReport = function(){
 
 // main function that will call other functions to generate cookies sales by location and print sales report
 function runSalesReport(){
+
+
+    // remove any existing table data to prevent duplicates when user adds new store location via HTML form
+    let Rows = document.getElementsByTagName('tr');
+    while (Rows.length > 0 ) {
+        Rows[0].remove();
+        console.log(Rows);
+    }
+
+
     // print the sales report header row
     printReportHeader();
     // calculate the sales data and print the sales report body
@@ -107,6 +117,24 @@ function printReportFooter(){
         colTotal.innerText = grandTotals[j];
         tableFooter.appendChild(colTotal);
     }
+}
+
+// event listener to add new store location from HTML form
+let storeForm = document.getElementById('storeForm');
+storeForm.addEventListener('submit', addStore);
+
+// event handler to add new store location from HTML form
+function addStore(event) {
+    event.preventDefault();
+    let form = event.target;
+    let name = form.name.value;
+    let minCust = form.minCust.value;
+    let maxCust = form.maxCust.value;
+    let avgQty = form.avgQty.value;
+    let store = new Store(name, minCust, maxCust, avgQty);
+    stores.push(store);
+    console.log(stores);
+    runSalesReport();
 }
 
 // create store objects using the Store() constructor, and add objects to array stores[]
