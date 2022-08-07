@@ -121,15 +121,21 @@ function addStore(event) {
     let minCust = form.minCust.value;
     let maxCust = form.maxCust.value;
     let avgQty = form.avgQty.value;
-    // create new Store object with form values
+    // create new store object with form values
     let store = new Store(name, minCust, maxCust, avgQty);
-    // add new store to end of stores array
+    // add new store object to end of stores array
     stores.push(store);
-    // calcuate ssales for new store location (last item in array) with updated grand totals
+    // update the sales report with the new store
+    reportUpdate();
+}
+
+// function to update the sales report if a new store is added via the HTML form
+function reportUpdate() {
+    // calcuate sales for a new store location (last item store[]) with updated grand totals
     calcSales(stores.length-1);
     // insert new store sales data into sales report
     stores[stores.length-1].renderReport();
-    // remove the existing totals row (table footer) and then re-render the totals/footer row
+    // remove the existing totals (table footer) row and then re-render the totals/footer row using the updated totals
     document.getElementById('table-footer').innerHTML = ''; // borrowed from solution @ https://stackoverflow.com/questions/63442859/reset-dom-table-on-form-submit
     printReportFooter();
     // reset the form to blank fields
