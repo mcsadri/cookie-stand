@@ -94,7 +94,7 @@ function calcSales(i){
 
 // function to print the sales report's footer row
 function printReportFooter(){
-    // remove any existing totals (table footer) row - needed for when totals row is re-rendered after storeForm submission
+    // remove any existing totals (table footer) row from sales report table - this is needed for when totals row is re-rendered after a storeForm submission
     document.getElementById('table-footer').innerHTML = ''; // borrowed from solution @ https://stackoverflow.com/questions/63442859/reset-dom-table-on-form-submit
     // select the 'table-footer' html id container element
     let tableFooter = document.getElementById('table-footer');
@@ -186,16 +186,16 @@ function updateExistingStore(index, newMin, newMax, newAvg) {
     }
     // reset the location's sales[] array to initialize it for re-calcuating sales
     stores[index].sales = [];
-    // calculate new sales data including updated grand totals
+    // calculate updated sales data
     calcSales(index);
-    // remove existing row
+    // clear existing sales report table-body content to initialize it for re-rendering
     document.getElementById('table-body').innerHTML = '';
     // re-render sales report
     for (let i = 0; i < stores.length; i++){
         // call render method to populate store data in for loop
         stores[i].renderReport();
     }
-    // re-render the totals/footer row using the updated totals
+    // re-render the totals/footer row using the updated grand totals
     printReportFooter();
 }
 
