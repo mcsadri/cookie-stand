@@ -21,9 +21,8 @@ function Store (name, minCust, maxCust, avgQty){
 Store.prototype.renderReport = function(){
     // select the 'table-body' html id container element
     let tableBody = document.getElementById('table-body');
-    // create new table row element for body of sales report and set element id equal to location name
+    // create new table row element for body of sales report
     let bodyRow = document.createElement('tr');
-    bodyRow.setAttribute('id', this.name);
     // print store location name in a header cell
     let storeLoc = document.createElement('th');
     storeLoc.innerText = this.name;
@@ -179,7 +178,6 @@ function updateExistingStore(index, newMin, newMax, newAvg) {
     stores[index].minCust = newMin;
     stores[index].maxCust = newMax;
     stores[index].avgQty = newAvg;
-
     // subtract store's previous sales data from the grand totals
     for (let i = 0; i < grandTotals.length; i++){
         grandTotals[i] -= stores[index].sales[i];
