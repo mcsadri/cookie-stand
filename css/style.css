@@ -3,7 +3,7 @@ td {
 }
 
 table {
-    margin: auto;
+    /* margin: auto; */
     border-spacing: 0px;
 }
 
@@ -26,4 +26,25 @@ th, td {
 
 #table-footer th{
     background-color: lightgray;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin-top: 1rem;
+    width:fit-content;
+}
+
+form label{
+    display: flex;
+    flex-direction: column;
+    flex-direction: row;
+    align-items: left;
+    margin-top: 1rem;
+    justify-content: space-between;
+}
+
+input[type=submit] {
+    margin-top: 1rem;
 }

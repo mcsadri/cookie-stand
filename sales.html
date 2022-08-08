@@ -16,17 +16,43 @@
     <main>
         
         <table>
-        
-            <thead id="table-header">
+            <thead class="row" id="table-header">
             </thead>
         
-            <tbody id="table-body">       
+            <tbody class="row" id="table-body">
             </tbody>
         
-            <tfoot id="table-footer">
+            <tfoot class="row" id="table-footer">
             </tfoot>
-        
         </table>
+
+        <form id="storeForm">
+            <fieldset>
+                <legend>Add a new store location</legend>
+                
+                    <label>
+                        Location name:
+                        <input type="text" name="name" required/>
+                    </label>
+
+                    <label>
+                        Minimum hourly customers:
+                        <input type="number" name="minCust" required min="0"/>
+                    </label>
+
+                    <label>
+                        Maximum hourly customers:
+                        <input type="number" name="maxCust" required min="1"/>
+                    </label>
+
+                    <label>
+                        Average cookies sold per customer:
+                        <input type="number" name="avgQty" required min="1.0" step="0.1"/>
+                    </label>
+
+                <input type="submit" value="Add store to Sales Results"/>
+            </fieldset>
+        </form>
 
         <script src="js/app.js"></script>
    
@@ -35,8 +61,6 @@
     <footer>
         <p>&copy; Manuch Sadri 2022</p>
     </footer>
-
-
 
 </body>
 </html>
