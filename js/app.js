@@ -21,8 +21,9 @@ function Store (name, minCust, maxCust, avgQty){
 Store.prototype.renderReport = function(){
     // select the 'table-body' html id container element
     let tableBody = document.getElementById('table-body');
-    // create new table row element for body of sales report
+    // create new table row element for body of sales report and set element id equal to location name
     let bodyRow = document.createElement('tr');
+    bodyRow.setAttribute('id', this.name);
     // print store location name in a header cell
     let storeLoc = document.createElement('th');
     storeLoc.innerText = this.name;
@@ -117,16 +118,36 @@ storeForm.addEventListener('submit', addStore);
 function addStore(event) {
     event.preventDefault();
     let form = event.target;
-    let name = properCase(form.name.value);
+    let name = properCase(form.name.value); // send user submitted name to properCase() to normalize upper/lower case
     let minCust = form.minCust.value;
     let maxCust = form.maxCust.value;
     let avgQty = form.avgQty.value;
-    // create new store object with form values
-    let store = new Store(name, minCust, maxCust, avgQty);
-    // add new store object to end of stores array
-    stores.push(store);
-    // update the sales report with the new store
-    reportUpdate();
+
+    // check if submitted store is already in the stores[] array
+    let found = false; // boolean flag used when searching if submitted store name matches an existing store
+    let index = null; // number variable to save the index location in stores[] if submitted name match is found
+    for (let i = 0; i < stores.length; i++) {
+        // if the submitted store is found then set the found and index variables accordingly for use later
+        if (name == stores[i].name){ // eslint-disable-line
+            found = true;
+            index = i;
+            //console.log(`I FOUND ${name} at stores[${index}]`);
+            break;
+        }
+    }
+
+    // if the submitted store was found in stores[] (found === true) then update the existing store sales data and grand totals
+    if (found === true) {
+        // send store info to the updateExistingStore() function to update existing store with new sales values
+        updateExistingStore(index, minCust, maxCust, avgQty);
+    } else { // else the submitted store was not found in stores[] (found === false) then create the new store object and update the grand totals
+        // create new store object with form values
+        let store = new Store(name, minCust, maxCust, avgQty);
+        // add new store object to end of stores array
+        stores.push(store);
+        // update the sales report with the new store
+        updateNewStore();
+    }
 }
 
 // function to normalize the user's input of store location name so that the first character is upper case with remaining chars lower case
@@ -138,7 +159,7 @@ function properCase(nameString) { // borrowed solution @ https://stackoverflow.c
 }
 
 // function to update the sales report if a new store is added via the HTML form
-function reportUpdate() {
+function updateNewStore() {
     // calculate sales for a new store location (last item store[]) with updated grand totals
     calcSales(stores.length-1);
     // insert new store sales data into sales report
@@ -148,6 +169,32 @@ function reportUpdate() {
     printReportFooter();
     // reset the form to blank fields
     document.getElementById('storeForm').reset();
+}
+
+// function to update an existing store location with new customer data, and recalcutate sales and grand totals
+function updateExistingStore(storesIndex, newMin, newMax, newAvg) {
+    // update store location customer and avg sales values
+    stores[storesIndex].minCust = newMin;
+    stores[storesIndex].maxCust = newMax;
+    stores[storesIndex].avgQty = newAvg;
+
+    // subtract store's previous sales data from the grand totals and reset the store's sales[]
+    // console.log('before substraction ' + grandTotals);
+    for (let i = 0; i < grandTotals.length; i++){
+        grandTotals[i] -= stores[storesIndex].sales[i];
+    }
+    // console.log('after substraction ' + grandTotals);
+    stores[storesIndex].sales = [];
+
+    // calculate new sales data including updated grand totals
+    calcSales(storesIndex);
+
+    // remove existing row
+
+
+    // render updated row
+
+
 }
 
 // create store objects using the Store() constructor, and add objects to array stores[]
