@@ -117,7 +117,7 @@ storeForm.addEventListener('submit', addStore);
 function addStore(event) {
     event.preventDefault();
     let form = event.target;
-    let name = form.name.value;
+    let name = properCase(form.name.value);
     let minCust = form.minCust.value;
     let maxCust = form.maxCust.value;
     let avgQty = form.avgQty.value;
@@ -129,9 +129,17 @@ function addStore(event) {
     reportUpdate();
 }
 
+// function to normalize the user's input of store location name so that the first character is upper case with remaining chars lower case
+function properCase(nameString) { // borrowed solution @ https://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+    // set the entire string to lower case
+    nameString = nameString.toLowerCase();
+    // return string with the first character made upper case
+    return nameString.charAt(0).toUpperCase() + nameString.slice(1);
+}
+
 // function to update the sales report if a new store is added via the HTML form
 function reportUpdate() {
-    // calcuate sales for a new store location (last item store[]) with updated grand totals
+    // calculate sales for a new store location (last item store[]) with updated grand totals
     calcSales(stores.length-1);
     // insert new store sales data into sales report
     stores[stores.length-1].renderReport();
