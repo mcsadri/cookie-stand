@@ -94,6 +94,8 @@ function calcSales(i){
 
 // function to print the sales report's footer row
 function printReportFooter(){
+    // remove any existing totals (table footer) row - needed for when totals row is re-rendered after storeForm submission
+    document.getElementById('table-footer').innerHTML = ''; // borrowed from solution @ https://stackoverflow.com/questions/63442859/reset-dom-table-on-form-submit
     // select the 'table-footer' html id container element
     let tableFooter = document.getElementById('table-footer');
     // create new table row element for sales totals footer
@@ -148,6 +150,9 @@ function addStore(event) {
         // update the sales report with the new store
         updateNewStore();
     }
+
+    // reset the form to blank fields
+    document.getElementById('storeForm').reset();
 }
 
 // function to normalize the user's input of store location name so that the first character is upper case with remaining chars lower case
@@ -164,37 +169,34 @@ function updateNewStore() {
     calcSales(stores.length-1);
     // insert new store sales data into sales report
     stores[stores.length-1].renderReport();
-    // remove the existing totals (table footer) row and then re-render the totals/footer row using the updated totals
-    document.getElementById('table-footer').innerHTML = ''; // borrowed from solution @ https://stackoverflow.com/questions/63442859/reset-dom-table-on-form-submit
+    // re-render the totals/footer row using the updated totals
     printReportFooter();
-    // reset the form to blank fields
-    document.getElementById('storeForm').reset();
 }
 
 // function to update an existing store location with new customer data, and recalcutate sales and grand totals
-function updateExistingStore(storesIndex, newMin, newMax, newAvg) {
+function updateExistingStore(index, newMin, newMax, newAvg) {
     // update store location customer and avg sales values
-    stores[storesIndex].minCust = newMin;
-    stores[storesIndex].maxCust = newMax;
-    stores[storesIndex].avgQty = newAvg;
+    stores[index].minCust = newMin;
+    stores[index].maxCust = newMax;
+    stores[index].avgQty = newAvg;
 
-    // subtract store's previous sales data from the grand totals and reset the store's sales[]
-    // console.log('before substraction ' + grandTotals);
+    // subtract store's previous sales data from the grand totals
     for (let i = 0; i < grandTotals.length; i++){
-        grandTotals[i] -= stores[storesIndex].sales[i];
+        grandTotals[i] -= stores[index].sales[i];
     }
-    // console.log('after substraction ' + grandTotals);
-    stores[storesIndex].sales = [];
-
+    // reset the location's sales[] array to initialize it for re-calcuating sales
+    stores[index].sales = [];
     // calculate new sales data including updated grand totals
-    calcSales(storesIndex);
-
+    calcSales(index);
     // remove existing row
-
-
-    // render updated row
-
-
+    document.getElementById('table-body').innerHTML = '';
+    // re-render sales report
+    for (let i = 0; i < stores.length; i++){
+        // call render method to populate store data in for loop
+        stores[i].renderReport();
+    }
+    // re-render the totals/footer row using the updated totals
+    printReportFooter();
 }
 
 // create store objects using the Store() constructor, and add objects to array stores[]
