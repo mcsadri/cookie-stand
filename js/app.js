@@ -21,8 +21,9 @@ function Store (name, minCust, maxCust, avgQty){
 Store.prototype.renderReport = function(){
     // select the 'table-body' html id container element
     let tableBody = document.getElementById('table-body');
-    // create new table row element for body of sales report
+    // create new table row element for body of sales report and set element id equal to location name
     let bodyRow = document.createElement('tr');
+    bodyRow.setAttribute('id', this.name);
     // print store location name in a header cell
     let storeLoc = document.createElement('th');
     storeLoc.innerText = this.name;
@@ -93,6 +94,8 @@ function calcSales(i){
 
 // function to print the sales report's footer row
 function printReportFooter(){
+    // remove any existing totals (table footer) row from sales report table - this is needed for when totals row is re-rendered after a storeForm submission
+    document.getElementById('table-footer').innerHTML = ''; // borrowed from solution @ https://stackoverflow.com/questions/63442859/reset-dom-table-on-form-submit
     // select the 'table-footer' html id container element
     let tableFooter = document.getElementById('table-footer');
     // create new table row element for sales totals footer
@@ -117,16 +120,39 @@ storeForm.addEventListener('submit', addStore);
 function addStore(event) {
     event.preventDefault();
     let form = event.target;
-    let name = properCase(form.name.value);
+    let name = properCase(form.name.value); // send user submitted name to properCase() to normalize upper/lower case
     let minCust = form.minCust.value;
     let maxCust = form.maxCust.value;
     let avgQty = form.avgQty.value;
-    // create new store object with form values
-    let store = new Store(name, minCust, maxCust, avgQty);
-    // add new store object to end of stores array
-    stores.push(store);
-    // update the sales report with the new store
-    reportUpdate();
+
+    // check if submitted store is already in the stores[] array
+    let found = false; // boolean flag used when searching if submitted store name matches an existing store
+    let index = null; // number variable to save the index location in stores[] if submitted name match is found
+    for (let i = 0; i < stores.length; i++) {
+        // if the submitted store is found then set the found and index variables accordingly for use later
+        if (name == stores[i].name){ // eslint-disable-line
+            found = true;
+            index = i;
+            //console.log(`I FOUND ${name} at stores[${index}]`);
+            break;
+        }
+    }
+
+    // if the submitted store was found in stores[] (found === true) then update the existing store sales data and grand totals
+    if (found === true) {
+        // send store info to the updateExistingStore() function to update existing store with new sales values
+        updateExistingStore(index, minCust, maxCust, avgQty);
+    } else { // else the submitted store was not found in stores[] (found === false) then create the new store object and update the grand totals
+        // create new store object with form values
+        let store = new Store(name, minCust, maxCust, avgQty);
+        // add new store object to end of stores array
+        stores.push(store);
+        // update the sales report with the new store
+        updateNewStore();
+    }
+
+    // reset the form to blank fields
+    document.getElementById('storeForm').reset();
 }
 
 // function to normalize the user's input of store location name so that the first character is upper case with remaining chars lower case
@@ -138,16 +164,39 @@ function properCase(nameString) { // borrowed solution @ https://stackoverflow.c
 }
 
 // function to update the sales report if a new store is added via the HTML form
-function reportUpdate() {
+function updateNewStore() {
     // calculate sales for a new store location (last item store[]) with updated grand totals
     calcSales(stores.length-1);
     // insert new store sales data into sales report
     stores[stores.length-1].renderReport();
-    // remove the existing totals (table footer) row and then re-render the totals/footer row using the updated totals
-    document.getElementById('table-footer').innerHTML = ''; // borrowed from solution @ https://stackoverflow.com/questions/63442859/reset-dom-table-on-form-submit
+    // re-render the totals/footer row using the updated totals
     printReportFooter();
-    // reset the form to blank fields
-    document.getElementById('storeForm').reset();
+}
+
+// function to update an existing store location with new customer data, and recalcutate sales and grand totals
+function updateExistingStore(index, newMin, newMax, newAvg) {
+    // update store location customer and avg sales values
+    stores[index].minCust = newMin;
+    stores[index].maxCust = newMax;
+    stores[index].avgQty = newAvg;
+
+    // subtract store's previous sales data from the grand totals
+    for (let i = 0; i < grandTotals.length; i++){
+        grandTotals[i] -= stores[index].sales[i];
+    }
+    // reset the location's sales[] array to initialize it for re-calcuating sales
+    stores[index].sales = [];
+    // calculate updated sales data
+    calcSales(index);
+    // clear existing sales report table-body content to initialize it for re-rendering
+    document.getElementById('table-body').innerHTML = '';
+    // re-render sales report
+    for (let i = 0; i < stores.length; i++){
+        // call render method to populate store data in for loop
+        stores[i].renderReport();
+    }
+    // re-render the totals/footer row using the updated grand totals
+    printReportFooter();
 }
 
 // create store objects using the Store() constructor, and add objects to array stores[]
