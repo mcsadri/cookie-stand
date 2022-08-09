@@ -1,0 +1,22 @@
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+footer section {
+    column-count: 5;
+    border: 1px solid;
+}
+
+footer div{
+    display: flex;
+    justify-content: space-between;
+    break-after:column;
+}
+
+footer li{
+    list-style-position: inside;
+    list-style-type: none;
+    text-decoration: none;
+}

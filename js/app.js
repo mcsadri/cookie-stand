@@ -123,8 +123,6 @@ function addStore(event) {
     let minCust = Number(form.minCust.value);
     let maxCust = Number(form.maxCust.value);
     let avgQty = Number(form.avgQty.value);
-    console.log(typeof avgQty);
-    console.log(avgQty);
 
     // check if submitted store is already in the stores[] array
     let found = false; // boolean flag used when searching if submitted store name matches an existing store
