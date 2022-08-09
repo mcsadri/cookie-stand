@@ -120,9 +120,11 @@ function addStore(event) {
     event.preventDefault();
     let form = event.target;
     let name = properCase(form.name.value); // send user submitted name to properCase() to normalize upper/lower case
-    let minCust = form.minCust.value;
-    let maxCust = form.maxCust.value;
-    let avgQty = form.avgQty.value;
+    let minCust = Number(form.minCust.value);
+    let maxCust = Number(form.maxCust.value);
+    let avgQty = Number(form.avgQty.value);
+    console.log(typeof avgQty);
+    console.log(avgQty);
 
     // check if submitted store is already in the stores[] array
     let found = false; // boolean flag used when searching if submitted store name matches an existing store
