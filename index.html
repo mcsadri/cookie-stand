@@ -4,50 +4,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css" type="text/css"/>
     <link rel="stylesheet" href="css/index.css" type="text/css"/>
+    <script src="js/slideshow.js"></script>
+    
     <title>Salmon Cookies - Home</title>
 </head>
 <body>
     
     <header>
-        <h1>Salmon Cookies!</h1>
-        <p>No, really, we're serious. It's kitty treats for people.</p>
-        
+        <div>
+            <h1>Salmon Cookies!</h1>
+            <p>No, really, we're serious. It's like kitty treats for people.</p>
+        </div>
+        <div>
+            <img alt="It's a salmon!" title="It's a salmon!" src="./img/salmon.png">
+        </div>
         <nav>
             <ul>
-                <li><a href="sales.html" target="_blank">Sales Data By Location</a></li>
+                <li><a href="sales.html">Sales Data By Location</a></li>
             </ul>
         </nav>
-    
     </header>
 
     <main>
-        
-        <img alt="It's a salmon!" title="It's a salmon!" src="./img/salmon.png">
 
-        <h3>Buy our merch! Yes, even the family is for sale!</h3>
+        <div>
+        <h3> Our Cookies are great. But you should also buy our merch! Yes, even the stock photo family is for sale!</h3>
 
-        <div class="row">
-            <img src="img/shirt.jpg" alt="" srcset="">
-            <img src="img/cutter.jpeg" alt="" srcset="">
-            <img src="img/frosted-cookie.jpg" alt="" srcset="">
-
+            <img class="mySlides" src="img/shirt.jpg">
+            <img class="mySlides" src="img/cutter.jpeg">
+            <img class="mySlides" src="img/frosted-cookie.jpg">
+            <img class="mySlides" src="img/fish.jpg">
+            <img class="mySlides" src="img/chinook.jpg">
+            <img class="mySlides" src="img/family.jpg">
         </div>
 
-        <div class="row">
-            <img src="img/fish.jpg" alt="" srcset="">
-            <img src="img/chinook.jpg" alt="" srcset="">
-            <img src="img/family.jpg" alt="" srcset="">
+        <script> // automatic slideshow taken from https://www.w3schools.com/w3css/w3css_slideshow.asp
+            var myIndex = 0;
+            carousel();
             
-        </div>
+            function carousel() {
+              var i;
+              var x = document.getElementsByClassName("mySlides");
+              for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";  
+              }
+              myIndex++;
+              if (myIndex > x.length) {myIndex = 1}    
+              x[myIndex-1].style.display = "block";  
+              setTimeout(carousel, 2000); // Change image every 2 seconds
+            }
+        </script>
 
     </main>
 
     <footer>
 
-        <h3>Open for business daily 6:00 AM - 8:00 PM local time zone</h3>
-
-        <h3>Visit one of our locations:</h3>
+        <p>Open for business daily 6:00 AM - 8:00 PM local time zone. Visit one of our locations:</p>
 
         <section>
 
@@ -98,13 +112,10 @@
 
         </section>
 
-        <h3>Contact us:</h3>
-        <ul>
-            <li>Phone: 877-GET-FISH</li>
+        <ul>Contact us:
+            <li>Phone: 877-CAT-TRTS</li>
             <li>Email: <a href="mailto:fakeAdrress@salmoncookies.com">Send email</a></li>
         </ul>
-
-        <p>&copy; Manuch Sadri 2022</p>
     
     </footer>
 

@@ -1,10 +1,43 @@
+html {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-size: 15px;
+    background-color: #6495ed;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: center;
+
+}
+
+h1 {
+    font-size: 35px;
+}
+
+a {
+    color: black;
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+
+}
+
 td {
     text-align: center;
+    background-color: white;
+    color: #002147;
 }
 
 table {
-    /* margin: auto; */
     border-spacing: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: -2rem;
 }
 
 table, th, td {
@@ -15,9 +48,15 @@ th, td {
     padding: 1rem;
 }
 
-#table-header{
+th {
+    font-weight: bold;
+    color: #002147;
+}
+
+#table-header th{
     background-color: black;
     color: white;
+    vertical-align: center;
 }
 
 #table-body th{
@@ -26,6 +65,7 @@ th, td {
 
 #table-footer th{
     background-color: lightgray;
+    color: #002147;
 }
 
 form{
@@ -34,6 +74,13 @@ form{
     align-items: left;
     margin-top: 1rem;
     width:fit-content;
+    border: 1px solid black;
+    padding: 1rem;
+    background-color: white;
+}
+
+form legend {
+    font-weight: bold;
 }
 
 form label{

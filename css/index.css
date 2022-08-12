@@ -1,48 +1,95 @@
-body {
-    font-family: Arial;
+@import url('https://fonts.googleapis.com/css2?family=Pangolin&display=swap');
+
+html {
+    font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
-main img {
+header {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    width: 300px;
+    justify-content: space-evenly;
+    padding: 1rem;
+    align-items: center;
+    background-color: #ff9966;
+
+}
+
+header h1 {
+    font-size: 50px;
+}
+
+header p {
+    margin-top: 1rem;
+    font-family: 'Pangolin', cursive;
+    color: white;
+}
+
+header img {
+    width: 500px;
     height: auto;
 }
 
-.row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    /* border: 1px solid red; */
-  }
-
-.row img {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 15px;
-    /* border: 1px solid blue; */
+a {
+    color: black;
 }
 
-/* footer {
-    position: absolute;
-    bottom: 0;
+main div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+main img {
+    border: 5px #6495ed solid;
+    border-radius: 5rem;
+}
+
+main h3 {
+    margin-top: 3rem;
+    font-size: 25px;
+}
+
+main img {
+    margin: 3rem;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+footer {
+    position:fixed;
+    bottom:0;
     width: 100%;
-} */
+    background-color: #ff9966;
+}
+
+footer p{
+    padding: 1rem;
+}
 
 footer section {
     column-count: 5;
     border: 1px solid;
+    padding: .5rem;
+    margin-bottom: .5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    background-color: #b0c4de;
 }
 
 footer div{
     display: flex;
-    justify-content: space-between;
-    break-after:column;
+    justify-content: space-evenly;
+    /* break-after:column; */
+}
+
+footer ul {
+    padding: .5rem;
 }
 
 footer li{
+    margin-left: 1rem;
     list-style-position: inside;
     list-style-type: none;
     text-decoration: none;

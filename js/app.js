@@ -1,7 +1,7 @@
 'use strict';
 
 let hrsOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm',
-    '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', 'Daily Location Total',]; // array of store's open hours + total
+    '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', 'Daily Total',]; // array of store's open hours + total
 let grandTotals = Array(hrsOpen.length).fill(0); // array to hold calculated sales across all stores for hourly and daily grand totals
 
 // constructor to create new store location objects
